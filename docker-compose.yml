@@ -1,0 +1,11 @@
+version: '3'
+services:
+  app:
+    image: 'gradle:jdk12'
+    volumes:
+      - .:/home/muskul-server
+    working_dir: /home/muskul-server
+    ports:
+      - 8080:8080
+    entrypoint: []
+    command: tail -f /dev/null
