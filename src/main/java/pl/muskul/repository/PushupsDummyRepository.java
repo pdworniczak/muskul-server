@@ -1,5 +1,6 @@
 package pl.muskul.repository;
 
+import pl.muskul.entity.Pushups;
 import pl.muskul.entity.User;
 
 import java.util.ArrayList;
@@ -19,8 +20,8 @@ public class PushupsDummyRepository {
         return users.toArray(new User[users.size()]);
     }
 
-    public User autorize(String token) {
-        return users.stream().filter(user -> user.getToken().equals(token)).findFirst().get();
+    public Pushups[] getPushups(String userId) {
+        return new Pushups[]{new Pushups()};
     }
 
 }
