@@ -3,14 +3,13 @@ package pl.muskul.api;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.muskul.entity.Pushups;
 import pl.muskul.repository.PushupsDummyRepository;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
+import java.util.LinkedHashMap;
 
 @RestController
 public class PushupsController {
@@ -27,6 +26,15 @@ public class PushupsController {
     public ResponseEntity<?> addPushups(@RequestBody Pushups pushups, HttpServletRequest request) throws JsonProcessingException {
         String userId = (String) request.getSession().getAttribute("userId");
         repo.addPushup(userId, pushups);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/pushups")
+    public ResponseEntity<?> deletePushups(@RequestBody LinkedHashMap<String, String> body, HttpServletRequest request) throws JsonProcessingException {
+        String userId = (String) request.getSession().getAttribute("userId");
+        LocalDateTime dateTime = LocalDateTime.parse(body.get("date"));
+        repo.removePushups(userId, dateTime);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }

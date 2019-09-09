@@ -2,14 +2,13 @@ package pl.muskul.repository;
 
 import pl.muskul.entity.Pushups;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.time.LocalDateTime;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class PushupsDummyRepository {
-    private Map<String, List<Pushups>> pushups = Map.of("1", new ArrayList<>(){});
+    private Map<String, List<Pushups>> pushups = new HashMap<>(Map.of("1", new ArrayList<>() {
+    }));
 
     public Pushups[] getPushups(String userId) {
         return pushups.get(userId).toArray(Pushups[]::new);
@@ -19,7 +18,8 @@ public class PushupsDummyRepository {
         pushups.get(userId).add(newPushups);
     }
 
-    public void removePushups(String userId, Date removeDate) {
-        pushups.get(userId).stream().filter(pushup -> !pushup.getDate().equals(removeDate)).collect(Collectors.toList());
+    public void removePushups(String userId, LocalDateTime removeDate) {
+        List<Pushups> somePushups = pushups.get(userId).stream().filter(pushup -> !pushup.getDate().isEqual(removeDate)).collect(Collectors.toList());
+        pushups.put(userId, somePushups);
     }
 }
