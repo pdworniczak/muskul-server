@@ -20,9 +20,23 @@ public class PushupsController {
     PushupsDummyRepository repo = new PushupsDummyRepository();
 
     @GetMapping("/pushups")
-    public ResponseEntity<?> pushups(HttpServletRequest request) throws JsonProcessingException {
+    public ResponseEntity<?> getPushups(HttpServletRequest request) throws JsonProcessingException {
         Pushups[] pushups = repo.getPushups((String) request.getSession().getAttribute("userId"));
 
         return new ResponseEntity<>(pushups, HttpStatus.OK);
+    }
+
+    @PostMapping("/pushups")
+    public ResponseEntity<?> addPushups(HttpServletRequest request) throws JsonProcessingException {
+        String userId = (String) request.getSession().getAttribute("userId");
+        Pushups pushups = new Pushups();
+        pushups.setSerie(1, 12);
+        pushups.setSerie(2, 15);
+        pushups.setSerie(3, 11);
+        pushups.setSerie(4, 11);
+        pushups.setSerie(5, 18);
+        repo.addPushup(userId, pushups);
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

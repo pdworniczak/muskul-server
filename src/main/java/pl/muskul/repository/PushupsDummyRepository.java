@@ -3,25 +3,21 @@ package pl.muskul.repository;
 import pl.muskul.entity.Pushups;
 import pl.muskul.entity.User;
 
-import java.util.ArrayList;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class PushupsDummyRepository {
-    private ArrayList<User> users = new ArrayList<>() {
-        {
-            add(new User("bade@poczta.fm"));
-        }
-    };
-
-    public void addUser(User user) {
-        users.add(user);
-    }
-
-    public User[] getUsers() {
-        return users.toArray(new User[users.size()]);
-    }
+    private Map<String, List<Pushups>> pushups = Map.of("1", new ArrayList<>(){});
 
     public Pushups[] getPushups(String userId) {
-        return new Pushups[]{new Pushups()};
+        return pushups.get(userId).toArray(Pushups[]::new);
     }
 
+    public void addPushup(String userId, Pushups newPushups) {
+        pushups.get(userId).add(newPushups);
+    }
+
+    public void removePushups(String userId, Date removeDate) {
+        pushups.get(userId).stream().filter(pushup -> !pushup.getDate().equals(removeDate)).collect(Collectors.toList());
+    }
 }

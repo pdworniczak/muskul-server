@@ -1,11 +1,13 @@
 package pl.muskul.entity;
 
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Pushups {
     private LocalDate date = LocalDate.now();
     private Short day = 1;
-    private Series[] series = {};
+    private Map<Integer, Integer> series = new HashMap<>();
 
     public Pushups() {}
     public Pushups(Short day) {
@@ -19,18 +21,12 @@ public class Pushups {
     public Short getDay() {
         return day;
     }
-    
-    public Series[] getSeries() {
+
+    public Map<Integer, Integer> getSeries() {
         return series;
     }
-}
 
-class Series {
-    private Short no;
-    private Short score;
-
-    public Series(Short no, Short score) {
-        this.no = no;
-        this.score = score;
+    public void setSerie(Integer no, Integer value) {
+        series.put(no, value);
     }
 }
