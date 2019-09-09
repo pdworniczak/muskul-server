@@ -1,6 +1,6 @@
 package pl.muskul.entity;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class User {
@@ -21,10 +21,10 @@ public class User {
         this.trainings.add(training);
     }
 
-    public Pushups removeTraining(LocalDate date) {
+    public Pushups removeTraining(LocalDateTime date) {
         Pushups toRemove = null;
 
-        for (Pushups training: this.trainings) {
+        for (Pushups training : this.trainings) {
             if (training.getDate().isEqual(date)) {
                 toRemove = training;
                 break;
