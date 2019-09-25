@@ -4,27 +4,27 @@ import org.springframework.core.env.Environment;
 
 public class AuthenticationConfig {
 
-    private String tokenSecret;
+    private String secret;
     private String testToken;
     private Environment env;
 
-    public AuthenticationConfig setToken(String testToken) {
+    public AuthenticationConfig setTestToken(String testToken) {
         this.testToken = testToken;
         return this;
     }
 
-    public AuthenticationConfig setSecret(String tokenSecret) {
-        this.tokenSecret = tokenSecret;
+    public AuthenticationConfig setSecret(String secret) {
+        this.secret = secret;
         return this;
     }
 
-    public AuthenticationConfig setToken(Environment env) {
+    public AuthenticationConfig setEnv(Environment env) {
         this.env = env;
         return this;
     }
 
-    public String getTokenSecret() {
-        return tokenSecret;
+    public String getSecret() {
+        return secret;
     }
 
     public String getTestToken() {

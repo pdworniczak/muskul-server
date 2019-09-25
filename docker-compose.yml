@@ -2,6 +2,7 @@ version: '3'
 services:
   app:
     image: 'gradle:jdk12'
+    container_name: 'muskul-api'
     volumes:
       - .:/home/muskul-server
     working_dir: /home/muskul-server
@@ -9,4 +10,6 @@ services:
       - 8080:8080
       - 5005:5005
     entrypoint: []
+    environment:
+      - MUSKUL_SECRET=test
     command: tail -f /dev/null

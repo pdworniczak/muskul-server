@@ -1,2 +1,2 @@
 jwt:
-  secret: your_secret
+  secret: ${MUSKUL_SECRET}
