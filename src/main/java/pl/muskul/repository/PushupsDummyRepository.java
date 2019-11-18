@@ -11,11 +11,22 @@ public class PushupsDummyRepository {
     }));
 
     public Pushups[] getPushups(String userId) {
-        return pushups.get(userId).toArray(Pushups[]::new);
+        List userPushups = pushups.get(userId);
+
+        if (userPushups != null) {
+            return pushups.get(userId).toArray(Pushups[]::new);
+        }
+
+        return new Pushups[]{};
     }
 
     public void addPushup(String userId, Pushups newPushups) {
-        pushups.get(userId).add(newPushups);
+        if (pushups.containsKey(userId)) {
+            pushups.get(userId).add(newPushups);
+        } else {
+            pushups.put(userId, new ArrayList<Pushups>());
+            pushups.get(userId).add(newPushups);
+        }
     }
 
     public void removePushups(String userId, LocalDateTime removeDate) {

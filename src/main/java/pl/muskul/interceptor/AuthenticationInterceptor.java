@@ -37,8 +37,16 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
                 return false;
             }
 
-            request.getSession().setAttribute("userId", decodedToken.getSubject());
-        } catch (NullPointerException | JWTVerificationException e) {
+            if (decodedToken.getSubject() != null) {
+                request.getSession().setAttribute("userId", decodedToken.getSubject());
+            } else throw new Exception("Missing token subject");
+        } catch (NullPointerException e) {
+            System.err.println("Token is missing:");
+            System.err.println(e);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+            return false;
+        } catch (JWTVerificationException e) {
+            System.err.println("Can't decode token:");
             System.err.println(e);
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
             return false;
@@ -48,7 +56,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
 
     private String getToken(HttpServletRequest request) {
         final String TOKEN_HEADER = "token";
-        return Arrays.stream(config.getEnv().getActiveProfiles()).anyMatch(profile -> profile.equals("dev")) ? config.getTestToken() : request.getHeader(TOKEN_HEADER);
+        return config.isTestTokenPresent() ? config.getTestToken() : request.getHeader(TOKEN_HEADER);
     }
 
     private DecodedJWT decodeToken(String token) {
@@ -60,6 +68,6 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
 
     private boolean isTokenExpired(DecodedJWT decodedToken) {
         Date expiresAt = decodedToken.getExpiresAt();
-        return expiresAt.before(new Date());
+        return expiresAt == null ? false : expiresAt.before(new Date());
     }
 }
